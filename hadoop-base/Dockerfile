@@ -1,19 +1,10 @@
-#
-# This image is modified version of sequenceiq/hadoop-docker
-#   * sequenceiq/hadoop-docker <https://github.com/sequenceiq/hadoop-docker>
-#
-# The modifications are
-#   * Use local hadoop package
-#   * Change template files to indicate docker master node
-#   * Modify bootstrap script
-#
-# Author: Kai Sasaki
-# Date:   2015 Sep,13
+# Author: Sarah McKechnie
+# Date:   2016, July
 #
 # Creates multi node hadoop cluster on Docker
 
-FROM sequenceiq/pam:ubuntu-14.04
-MAINTAINER lewuathe
+FROM resin/rpi-raspbian:jessie
+MAINTAINER Sarah McKechnie <sarah.a.mckechnie@gmail.com>
 
 USER root
 
@@ -33,19 +24,19 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 # java
 RUN mkdir -p /usr/java/default && \
-    curl -Ls 'http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
+    curl -Ls 'jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
     tar --strip-components=1 -xz -C /usr/java/default/
 
 ENV JAVA_HOME /usr/java/default
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # download native support
-RUN mkdir -p /tmp/native
-RUN curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.7.0.tar | tar -x -C /tmp/native
+#RUN mkdir -p /tmp/native
+#RUN curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.7.0.tar | tar -x -C /tmp/native
 
 # hadoop
-RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-2.7.0/hadoop-2.7.0.tar.gz | tar -xz -C /usr/local/
-RUN cd /usr/local && ln -s ./hadoop-2.7.0 hadoop
+RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz | tar -xz -C /usr/local/ 
+RUN cd /usr/local && ln -s ./hadoop-2.7.2 hadoop
 
 ENV HADOOP_PREFIX /usr/local/hadoop
 ENV HADOOP_COMMON_HOME /usr/local/hadoop
@@ -62,6 +53,8 @@ RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/had
 RUN mkdir $HADOOP_PREFIX/input
 RUN cp $HADOOP_PREFIX/etc/hadoop/*.xml $HADOOP_PREFIX/input
 
+#distribution
+RUN mkdir -p $HADOOP_PREFIX/etc/hadoop
 ADD core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template
 ADD hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
 ADD mapred-site.xml $HADOOP_PREFIX/etc/hadoop/mapred-site.xml

@@ -14,7 +14,6 @@ RUN apt-get update
 RUN apt-get install -y curl tar sudo openssh-server openssh-client rsync
 
 # passwordless ssh
-# passwordless ssh
 RUN rm -f /etc/ssh/ssh_host_dsa_key /etc/ssh/ssh_host_rsa_key /root/.ssh/id_rsa
 RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
 RUN ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
@@ -23,9 +22,13 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
-RUN tar -i jdk-8u101-linux-arm32-vfp-hflt.tar.gz
-RUN rm jdk-8u101-linux-arm32-vfp-hflt.tar.gz
+#RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
+#RUN tar -i jdk-8u101-linux-arm32-vfp-hflt.tar.gz
+#RUN rm jdk-8u101-linux-arm32-vfp-hflt.tar.gz
+
+RUN mkdir -p /usr/java/default && \
+    curl -Ls 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
+    tar --strip-components=1 -xz -C /usr/java/default/
 
 ENV JAVA_HOME /usr/java/default
 ENV PATH $PATH:$JAVA_HOME/bin

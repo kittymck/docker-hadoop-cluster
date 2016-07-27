@@ -22,17 +22,13 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-#RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
-#RUN tar -i jdk-8u101-linux-arm32-vfp-hflt.tar.gz
-#RUN rm jdk-8u101-linux-arm32-vfp-hflt.tar.gz
-
-RUN mkdir -p /usr/java/default && \
-    curl -Ls 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
-    tar --strip-components=1 -xz -C /usr/java/default/
+RUN apt-get install -y openjdk-7-jdk
+#RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
+#RUN rpm -i jdk-7u51-linux-x64.rpm
+#RUN rm jdk-7u51-linux-x64.rpm
 
 ENV JAVA_HOME /usr/java/default
 ENV PATH $PATH:$JAVA_HOME/bin
-RUN rm /usr/bin/java && ln -s $JAVA_HOME/bin/java /usr/bin/java
 
 # download native support
 #RUN mkdir -p /tmp/native

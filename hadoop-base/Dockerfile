@@ -24,8 +24,8 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 # java
 RUN mkdir -p /usr/java/default && \
-    curl -Ls 'jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
-    tar --strip-components=1 -xz -C /usr/java/default/
+RUN apt-get update && sudo apt-get install oracle-java8-jdk
+
 
 ENV JAVA_HOME /usr/java/default
 ENV PATH $PATH:$JAVA_HOME/bin

@@ -23,7 +23,7 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-RRUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
+RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-arm32-vfp-hflt.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
 RUN tar -i jdk-8u101-linux-arm32-vfp-hflt.tar.gz
 RUN rm jdk-8u101-linux-arm32-vfp-hflt.tar.gz
 

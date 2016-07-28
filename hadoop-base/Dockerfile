@@ -45,6 +45,7 @@ ENV HADOOP_MAPRED_HOME /usr/local/hadoop
 ENV HADOOP_YARN_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
+ENV HADOOP_CLASSPATH /usr/lib/jvm/java-1.7.0-openjdk-armhf/lib/tools.jar
 
 RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/java/default\nexport HADOOP_PREFIX=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
@@ -61,6 +62,11 @@ ADD yarn-site.xml $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
 ADD log4j.properties $HADOOP_PREFIX/etc/hadoop/log4j.properties
 
 RUN $HADOOP_PREFIX/bin/hdfs namenode -format
+
+# Fix guava issue by updating it to v15
+RUN mkdir -p /usr/java/default/bin && ln -s $(which java) /usr/java/default/bin/java
+RUN rm $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar && curl -o $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar https://repo1.maven.org/maven2/com/google/guava/guava/15.0/guava-15.0.jar
+RUN for file in $(find . -iname guava-11.0.2.jar); do cp $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar $file; done
 
 # fixing the libhadoop.so like a boss
 RUN rm -rf /usr/local/hadoop/lib/native

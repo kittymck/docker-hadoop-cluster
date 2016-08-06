@@ -27,7 +27,7 @@ RUN apt-get install -y openjdk-7-jdk
 #RUN rpm -i jdk-7u51-linux-x64.rpm
 #RUN rm jdk-7u51-linux-x64.rpm
 
-ENV JAVA_HOME /usr/java/default
+ENV JAVA_HOME /usr/bin/java
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # download native support

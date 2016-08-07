@@ -7,13 +7,13 @@
 #   * Change template files to indicate docker master node
 #   * Modify bootstrap script
 #
-# Author: Kai Sasaki
-# Date:   2015 Sep,13
+# Author: Sarah McKechnie
+# Date:   July 2016
 #
 # Creates multi node hadoop cluster on Docker
 
-FROM lewuathe/hadoop-base:latest
-MAINTAINER lewuathe
+FROM kittymck/hadoop-base:latest
+MAINTAINER Sarah McKechnie
 
 ADD bootstrap.sh /etc/bootstrap.sh
 RUN chown root:root /etc/bootstrap.sh

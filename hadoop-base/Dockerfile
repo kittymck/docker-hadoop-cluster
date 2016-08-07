@@ -44,7 +44,7 @@ ENV HADOOP_HDFS_HOME /usr/local/hadoop
 ENV HADOOP_MAPRED_HOME /usr/local/hadoop
 ENV HADOOP_YARN_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
-ENV JAVA_HOME=/usr/lib/jvm/java-7-oracle
+ENV JAVA_HOME=/usr
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV HADOOP_CLASSPATH /usr/lib/jvm/java-1.7.0-openjdk-armhf/lib/tools.jar
 
@@ -65,7 +65,7 @@ ADD log4j.properties $HADOOP_PREFIX/etc/hadoop/log4j.properties
 RUN $HADOOP_PREFIX/bin/hdfs namenode -format
 
 # Fix guava issue by updating it to v15
-RUN mkdir -p /usr/java/default/bin && ln -s $(which java) /usr/java/default/bin/java
+RUN mkdir -p /usr/java/default/bin && ln -s $(which java) /usr/bin/java
 RUN rm $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar && curl -o $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar https://repo1.maven.org/maven2/com/google/guava/guava/15.0/guava-15.0.jar
 RUN for file in $(find . -iname guava-11.0.2.jar); do cp $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar $file; done
 

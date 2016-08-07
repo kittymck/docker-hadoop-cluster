@@ -27,7 +27,7 @@ RUN apt-get install -y openjdk-7-jdk
 #RUN rpm -i jdk-7u51-linux-x64.rpm
 #RUN rm jdk-7u51-linux-x64.rpm
 
-ENV JAVA_HOME /usr/java/default
+ENV JAVA_HOME /usr/bin/java
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # download native support
@@ -48,7 +48,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-7-oracle
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
 ENV HADOOP_CLASSPATH /usr/lib/jvm/java-1.7.0-openjdk-armhf/lib/tools.jar
 
-RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/java/default\nexport HADOOP_PREFIX=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
+RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/bin/java\nexport HADOOP_PREFIX=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 #RUN . $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 

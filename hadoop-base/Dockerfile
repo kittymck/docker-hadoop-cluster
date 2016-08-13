@@ -87,7 +87,7 @@ RUN sed  -i "/^[^#]*UsePAM/ s/.*/#&/"  /etc/ssh/sshd_config
 RUN echo "UsePAM no" >> /etc/ssh/sshd_config
 RUN echo "Port 2122" >> /etc/ssh/sshd_config
 
-RUN service sshd start
+RUN service ssh start
 
 # Hdfs ports
 EXPOSE 9000 50010 50020 50070 50075 50090

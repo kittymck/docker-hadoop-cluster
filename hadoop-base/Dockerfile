@@ -1,3 +1,5 @@
+#This image is a modified version of Lewuathe/docker-hadoop-cluster
+#https://github.com/Lewuathe/docker-hadoop-cluster
 # Author: Sarah McKechnie
 # Date:   2016, July
 #

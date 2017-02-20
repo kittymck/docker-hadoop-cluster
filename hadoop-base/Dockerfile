@@ -30,10 +30,6 @@ RUN apt-get install -y openjdk-7-jdk
 ENV JAVA_HOME /usr
 ENV PATH $PATH:$JAVA_HOME/bin
 
-# download native support
-#RUN mkdir -p /tmp/native
-#RUN curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.7.0.tar | tar -x -C /tmp/native
-
 # hadoop
 RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-2.7.2/hadoop-2.7.2.tar.gz | tar -xz -C /usr/local/ 
 RUN cd /usr/local && ln -s ./hadoop-2.7.2 hadoop
@@ -63,15 +59,6 @@ ADD yarn-site.xml $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
 ADD log4j.properties $HADOOP_PREFIX/etc/hadoop/log4j.properties
 
 RUN $HADOOP_PREFIX/bin/hdfs namenode -format
-
-# Fix guava issue by updating it to v15
-#RUN mkdir -p /usr/java/default/bin && ln -s $(which java) /usr/bin/java
-#RUN rm $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar && curl -o $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar https://repo1.maven.org/maven2/com/google/guava/guava/15.0/guava-15.0.jar
-#RUN for file in $(find . -iname guava-11.0.2.jar); do cp $HADOOP_PREFIX/share/hadoop/hdfs/lib/guava-11.0.2.jar $file; done
-
-# fixing the libhadoop.so like a boss
-#RUN rm -rf /usr/local/hadoop/lib/native
-#RUN mv /tmp/native /usr/local/hadoop/lib
 
 ADD ssh_config /root/.ssh/config
 RUN chmod 600 /root/.ssh/config
